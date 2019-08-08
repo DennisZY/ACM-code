@@ -60,10 +60,10 @@ struct treap {
             return ;
         } else if (x < val[k]) {
             insert(l[k], x);
-            if (rnd[k] > rnd[l[k]])rrotate(k);
+            if (rnd[k] < rnd[l[k]])rrotate(k);
         } else {
             insert(r[k], x);
-            if (rnd[k] > rnd[r[k]])lrotate(k);
+            if (rnd[k] < rnd[r[k]])lrotate(k);
         }
     }
     void del(int &k, int x) {
@@ -76,7 +76,7 @@ struct treap {
             }
             if (l[k] == 0 || r[k] == 0) {
                 k = l[k] + r[k];
-            } else if (rnd[l[k]] < rnd[r[k]]) {
+            } else if (rnd[l[k]] > rnd[r[k]]) {
                 rrotate(k);
                 del(r[k], x);
             } else {
