@@ -28,13 +28,6 @@ struct rec {
 int root[N];
 int tot, n, m, p;
 int a[N], b[N << 1];
-void print(int o, int l, int r) {
-    if (!o) return;
-    if (l == r && tr[o].sz) printf("%d ", l);
-    int mid = (l + r) >> 1;
-    print(tr[o].l, l, mid);
-    print(tr[o].r, mid + 1, r);
-}
 int get(int val) {
     return lower_bound(b + 1, b + p + 1, val) - b;
 }
