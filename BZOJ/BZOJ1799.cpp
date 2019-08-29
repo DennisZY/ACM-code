@@ -18,7 +18,7 @@
 */
 using namespace std;
 typedef long long ll;
-ll dp[82][10][82][82], ten[82][10];
+int dp[82][10][82][82], ten[82][10];
 int num[10];
 int calc(int pos, int sum, int mod, int s, bool e) {
     if (s - sum < 0)return 0;
