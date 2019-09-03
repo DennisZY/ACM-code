@@ -23,6 +23,7 @@ My initial code.
 #include <cmath>
 #include <ctime>
 #include <queue>
+#include <stack>
 #include <map>
 #include <set>
 /*
