@@ -1,28 +1,28 @@
 #include <algorithm>
-#include <iostream>
+#include <bitset>
+#include <cassert>
+#include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <bitset>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <string>
-#include <cmath>
 #include <ctime>
-#include <queue>
+#include <iostream>
 #include <map>
+#include <queue>
 #include <set>
-/*
+#include <stack>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-*/
+#include <vector>
 using namespace std;
 typedef long long ll;
 ll dp[10010];
 const ll mod = 2147483648;
-int main() {
-    //freopen("in.txt","r",stdin);
-    //freopen("out.txt","w",stdout);
+int main()
+{
+    // freopen("in.txt","r",stdin);
+    // freopen("out.txt","w",stdout);
     int n;
     scanf("%d", &n);
     dp[0] = 1;

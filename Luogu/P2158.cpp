@@ -1,27 +1,27 @@
 #include <algorithm>
-#include <iostream>
+#include <bitset>
+#include <cassert>
+#include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <bitset>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <string>
-#include <cmath>
 #include <ctime>
-#include <queue>
+#include <iostream>
 #include <map>
+#include <queue>
 #include <set>
-/*
+#include <stack>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-*/
+#include <vector>
 using namespace std;
 typedef long long ll;
 const int N = 40010;
 int pr, prime[N], v[N], mu[N];
 int pre[N];
-void primejudge(int lim) {
+void primejudge(int lim)
+{
     memset(v, 0, sizeof v);
     pr = 0;
     mu[1] = 1;
@@ -33,12 +33,14 @@ void primejudge(int lim) {
         }
         for (int j = 0; j < pr && lim / i >= prime[j]; j++) {
             v[i * prime[j]] = prime[j];
-            if (v[i] <= prime[j])break;
+            if (v[i] <= prime[j])
+                break;
             mu[i * prime[j]] = -mu[i];
         }
     }
 }
-int main() {
+int main()
+{
     primejudge(40000);
     int n;
     scanf("%d", &n);

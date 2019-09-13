@@ -1,29 +1,29 @@
 #include <algorithm>
-#include <iostream>
+#include <bitset>
 #include <cassert>
+#include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <bitset>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <cmath>
 #include <ctime>
-#include <queue>
+#include <iostream>
 #include <map>
+#include <queue>
 #include <set>
-/*
+#include <stack>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-*/
+#include <vector>
 using namespace std;
 typedef long long ll;
 char s1[110], s2[110];
 int n1, n2, len1, len2;
 ll dp[110][33];
-int main() {
-    //freopen("in.txt","r",stdin);
-    //freopen("out.txt","w",stdout);
+int main()
+{
+    // freopen("in.txt","r",stdin);
+    // freopen("out.txt","w",stdout);
     while (~scanf("%s%d%s%d", s2, &n2, s1, &n1)) {
         ll fin;
         len1 = strlen(s1), len2 = strlen(s2);
@@ -34,14 +34,16 @@ int main() {
                 int cnt = 0;
                 while (s1[pos] != s2[j]) {
                     pos++;
-                    if (pos == len1)pos = 0;
+                    if (pos == len1)
+                        pos = 0;
                     if (++cnt >= len1) {
                         printf("0\n");
                         goto here;
                     }
                 }
                 pos++;
-                if (pos == len1)pos = 0;
+                if (pos == len1)
+                    pos = 0;
                 dp[i][0] += cnt + 1;
             }
         }
@@ -64,8 +66,7 @@ int main() {
             }
         }
         printf("%lld\n", fin / n2);
-here:
-        ;
+    here:;
     }
     return 0;
 }

@@ -1,29 +1,30 @@
 #include <algorithm>
-#include <iostream>
+#include <bitset>
 #include <cassert>
+#include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <bitset>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <cmath>
 #include <ctime>
-#include <queue>
+#include <iostream>
 #include <map>
+#include <queue>
 #include <set>
-/*
+#include <stack>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-*/
+#include <vector>
 using namespace std;
 typedef long long ll;
 const int N = 300010;
 int n, s;
 ll t[N], c[N], dp[N], q[N];
 int l, r;
-int query(int i, int k) {
-    if (l == r)return q[l];
+int query(int i, int k)
+{
+    if (l == r)
+        return q[l];
     int L = l, R = r;
     while (L < R) {
         int mid = (L + R) >> 1;
@@ -35,9 +36,10 @@ int query(int i, int k) {
     }
     return q[L];
 }
-int main() {
-    //freopen("in.txt","r",stdin);
-    //freopen("out.txt","w",stdout);
+int main()
+{
+    // freopen("in.txt","r",stdin);
+    // freopen("out.txt","w",stdout);
     scanf("%d%d", &n, &s);
     t[0] = c[0] = 0;
     for (int i = 1; i <= n; i++) {
@@ -51,7 +53,9 @@ int main() {
     for (int i = 1; i <= n; i++) {
         int ans = query(i, s + t[i]);
         dp[i] = dp[ans] - (s + t[i]) * c[ans] + t[i] * c[i] + s * c[n];
-        while (l < r && (dp[q[r]] - dp[q[r - 1]]) * (c[i] - c[q[r]]) >= (dp[i] - dp[q[r]]) * (c[q[r]] - c[q[r - 1]]))r--;
+        while (l < r && (dp[q[r]] - dp[q[r - 1]]) * (c[i] - c[q[r]]) >=
+                            (dp[i] - dp[q[r]]) * (c[q[r]] - c[q[r - 1]]))
+            r--;
         q[++r] = i;
     }
     printf("%lld\n", dp[n]);

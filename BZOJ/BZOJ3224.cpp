@@ -1,21 +1,20 @@
 #include <algorithm>
-#include <iostream>
+#include <bitset>
+#include <cassert>
+#include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <bitset>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <string>
-#include <cmath>
 #include <ctime>
-#include <queue>
+#include <iostream>
 #include <map>
+#include <queue>
 #include <set>
-/*
+#include <stack>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-*/
+#include <vector>
 using namespace std;
 
 int n;
@@ -23,13 +22,10 @@ const int maxn = 100010;
 struct treap {
     int l[maxn], r[maxn], val[maxn], rnd[maxn], size[maxn], w[maxn];
     int sz, ans, rt;
-    void init() {
-        sz = size[0] = w[0] = 0;
-    }
-    inline void pushup(int x) {
-        size[x] = size[l[x]] + size[r[x]] + w[x];
-    }
-    void lrotate(int &k) {
+    void init() { sz = size[0] = w[0] = 0; }
+    inline void pushup(int x) { size[x] = size[l[x]] + size[r[x]] + w[x]; }
+    void lrotate(int &k)
+    {
         int t = r[k];
         r[k] = l[t];
         l[t] = k;
@@ -37,7 +33,8 @@ struct treap {
         pushup(k);
         k = t;
     }
-    void rrotate(int &k) {
+    void rrotate(int &k)
+    {
         int t = l[k];
         l[k] = r[t];
         r[t] = k;
@@ -45,34 +42,39 @@ struct treap {
         pushup(k);
         k = t;
     }
-    void insert(int &k, int x) {
+    void insert(int &k, int x)
+    {
         if (k == 0) {
             k = ++sz;
             l[sz] = r[sz] = 0;
             val[sz] = x;
             rnd[sz] = rand();
             w[sz] = size[sz] = 1;
-            return ;
+            return;
         }
         ++size[k];
         if (x == val[k]) {
             ++w[k];
-            return ;
+            return;
         } else if (x < val[k]) {
             insert(l[k], x);
-            if (rnd[k] < rnd[l[k]])rrotate(k);
+            if (rnd[k] < rnd[l[k]])
+                rrotate(k);
         } else {
             insert(r[k], x);
-            if (rnd[k] < rnd[r[k]])lrotate(k);
+            if (rnd[k] < rnd[r[k]])
+                lrotate(k);
         }
     }
-    void del(int &k, int x) {
-        if (k == 0)return ;
+    void del(int &k, int x)
+    {
+        if (k == 0)
+            return;
         if (val[k] == x) {
             if (w[k] > 1) {
                 --w[k];
                 pushup(k);
-                return ;
+                return;
             }
             if (l[k] == 0 || r[k] == 0) {
                 k = l[k] + r[k];
@@ -90,7 +92,8 @@ struct treap {
         }
         pushup(k);
     }
-    int queryrank(int k, int x) {
+    int queryrank(int k, int x)
+    {
         int ans = 0;
         while (k) {
             if (x == val[k]) {
@@ -102,11 +105,14 @@ struct treap {
                 k = r[k];
             }
         }
-        if (!k)return 0;
+        if (!k)
+            return 0;
         return ans;
     }
-    int querynum(int k, int x) {
-        if (x > size[rt])return 0;
+    int querynum(int k, int x)
+    {
+        if (x > size[rt])
+            return 0;
         while (k) {
             if (size[l[k]] >= x) {
                 k = l[k];
@@ -119,7 +125,8 @@ struct treap {
         }
         return 0;
     }
-    void querypre(int k, int x) {
+    void querypre(int k, int x)
+    {
         while (k) {
             if (val[k] < x) {
                 ans = k;
@@ -129,7 +136,8 @@ struct treap {
             }
         }
     }
-    void querysub(int k, int x) {
+    void querysub(int k, int x)
+    {
         while (k) {
             if (val[k] > x) {
                 ans = k;
@@ -141,15 +149,16 @@ struct treap {
     }
 } T;
 
-int main() {
-    //freopen("in.txt","r",stdin);
-    //freopen("out.txt","w",stdout);
+int main()
+{
+    // freopen("in.txt","r",stdin);
+    // freopen("out.txt","w",stdout);
     srand(time(0));
     scanf("%d", &n);
     int opt, x;
     for (int i = 1; i <= n; i++) {
         scanf("%d%d", &opt, &x);
-        //printf("     %d\n", T.rt);
+        // printf("     %d\n", T.rt);
         if (opt == 1)
             T.insert(T.rt, x);
         else if (opt == 2)

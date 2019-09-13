@@ -1,21 +1,20 @@
 #include <algorithm>
-#include <iostream>
+#include <bitset>
+#include <cassert>
+#include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <bitset>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <string>
-#include <cmath>
 #include <ctime>
-#include <queue>
+#include <iostream>
 #include <map>
+#include <queue>
 #include <set>
-/*
+#include <stack>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-*/
+#include <vector>
 using namespace std;
 const int N = 60010;
 const int M = 2500010;
@@ -28,15 +27,15 @@ struct rec {
 int root[N], zxs[N];
 int tot, n, m, p;
 int a[N], b[N];
-int get(int val) {
-    return lower_bound(b + 1, b + p + 1, val) - b;
-}
-int newnode() {
+int get(int val) { return lower_bound(b + 1, b + p + 1, val) - b; }
+int newnode()
+{
     ++tot;
     tr[tot].l = tr[tot].r = tr[tot].sz = 0;
     return tot;
 }
-int build(int l, int r) {
+int build(int l, int r)
+{
     int rt = newnode();
     if (l != r) {
         int mid = (l + r) >> 1;
@@ -45,7 +44,8 @@ int build(int l, int r) {
     }
     return rt;
 }
-int update(int rt, int val, int cnt) {
+int update(int rt, int val, int cnt)
+{
     int tmp = newnode();
     int nrt = tmp;
     int l = 1, r = p;
@@ -71,22 +71,23 @@ int update(int rt, int val, int cnt) {
     // printf("!!!!!!!!%d  %d\n", val, l);
     return tmp;
 }
-int lowbit(int x) {
-    return x & (-x);
-}
-void add(int x, int y, int z) {
+int lowbit(int x) { return x & (-x); }
+void add(int x, int y, int z)
+{
     for (; x <= n; x += lowbit(x)) {
         zxs[x] = update(zxs[x], y, z);
     }
 }
 int cnt1, cnt2, use1[N], use2[N];
-void genlist(int x, int *a, int &p) {
+void genlist(int x, int *a, int &p)
+{
     p = 0;
     for (; x; x -= lowbit(x)) {
         a[++p] = zxs[x];
     }
 }
-int query(int st, int ed, int k) {
+int query(int st, int ed, int k)
+{
     int lr = root[st - 1], rr = root[ed];
     genlist(ed, use1, cnt1);
     genlist(st - 1, use2, cnt2);
@@ -94,18 +95,24 @@ int query(int st, int ed, int k) {
     while (l < r) {
         int mid = (l + r) >> 1, c = tr[tr[rr].l].sz - tr[tr[lr].l].sz;
         // printf("~~1~~~%d %d %d %d\n", l, r, c, k);
-        for (int i = 1; i <= cnt1; i++)c += tr[tr[use1[i]].l].sz;
-        for (int i = 1; i <= cnt2; i++)c -= tr[tr[use2[i]].l].sz;
+        for (int i = 1; i <= cnt1; i++)
+            c += tr[tr[use1[i]].l].sz;
+        for (int i = 1; i <= cnt2; i++)
+            c -= tr[tr[use2[i]].l].sz;
         // printf("~~2~~~%d %d %d %d\n", l, r, c, k);
         if (c >= k) {
-            for (int i = 1; i <= cnt1; i++)use1[i] = tr[use1[i]].l;
-            for (int i = 1; i <= cnt2; i++)use2[i] = tr[use2[i]].l;
+            for (int i = 1; i <= cnt1; i++)
+                use1[i] = tr[use1[i]].l;
+            for (int i = 1; i <= cnt2; i++)
+                use2[i] = tr[use2[i]].l;
             rr = tr[rr].l;
             lr = tr[lr].l;
             r = mid;
         } else {
-            for (int i = 1; i <= cnt1; i++)use1[i] = tr[use1[i]].r;
-            for (int i = 1; i <= cnt2; i++)use2[i] = tr[use2[i]].r;
+            for (int i = 1; i <= cnt1; i++)
+                use1[i] = tr[use1[i]].r;
+            for (int i = 1; i <= cnt2; i++)
+                use2[i] = tr[use2[i]].r;
             rr = tr[rr].r;
             lr = tr[lr].r;
             l = mid + 1;
@@ -115,9 +122,10 @@ int query(int st, int ed, int k) {
     return l;
 }
 
-int main() {
-    //freopen("in.txt","r",stdin);
-    //freopen("out.txt","w",stdout);
+int main()
+{
+    // freopen("in.txt","r",stdin);
+    // freopen("out.txt","w",stdout);
     int t;
     scanf("%d", &t);
     while (t--) {

@@ -1,25 +1,25 @@
 #include <algorithm>
-#include <iostream>
+#include <bitset>
+#include <cassert>
+#include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <bitset>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <string>
-#include <cmath>
 #include <ctime>
-#include <queue>
+#include <iostream>
 #include <map>
+#include <queue>
 #include <set>
-/*
+#include <stack>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-*/
+#include <vector>
 using namespace std;
 int dp[310][310];
 int s[310], a[310];
-int main() {
+int main()
+{
     int n;
     scanf("%d", &n);
     memset(dp, 0x3f, sizeof dp);

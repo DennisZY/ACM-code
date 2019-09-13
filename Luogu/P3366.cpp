@@ -1,21 +1,20 @@
 #include <algorithm>
-#include <iostream>
+#include <bitset>
 #include <cassert>
+#include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <bitset>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <cmath>
 #include <ctime>
-#include <queue>
+#include <iostream>
 #include <map>
+#include <queue>
 #include <set>
-/*
+#include <stack>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-*/
+#include <vector>
 using namespace std;
 const int N = 200010;
 typedef pair<int, int> PII;
@@ -23,15 +22,17 @@ int d[N];
 bool vis[N];
 int Head[5010], ver[N << 1], nxt[N << 1], c[N << 1];
 int tot;
-void add(int x, int y, int z) {
+void add(int x, int y, int z)
+{
     ver[++tot] = y;
     c[tot] = z;
     nxt[tot] = Head[x];
     Head[x] = tot;
 }
 int n, m;
-void prim() {
-    priority_queue<PII, vector<PII>, greater<PII>>q;
+void prim()
+{
+    priority_queue<PII, vector<PII>, greater<PII>> q;
     fill(d, d + n + 1, 0x3f3f3f3f);
     fill(vis, vis + n + 1, false);
     d[1] = 0;
@@ -40,11 +41,13 @@ void prim() {
         PII tmp = q.top();
         q.pop();
         int u = tmp.second;
-        if (vis[u])continue;
+        if (vis[u])
+            continue;
         vis[u] = true;
         for (int i = Head[u], v; i; i = nxt[i]) {
             v = ver[i];
-            if (vis[v])continue;
+            if (vis[v])
+                continue;
             if (d[v] > c[i]) {
                 d[v] = c[i];
                 q.push(PII(c[i], v));
@@ -52,9 +55,10 @@ void prim() {
         }
     }
 }
-int main() {
-    //freopen("in.txt","r",stdin);
-    //freopen("out.txt","w",stdout);
+int main()
+{
+    // freopen("in.txt","r",stdin);
+    // freopen("out.txt","w",stdout);
     tot = 0;
     scanf("%d%d", &n, &m);
     for (int i = 1, x, y, z; i <= m; i++) {

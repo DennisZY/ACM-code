@@ -1,38 +1,40 @@
 #include <algorithm>
-#include <iostream>
+#include <bitset>
+#include <cassert>
+#include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <bitset>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <string>
-#include <cmath>
 #include <ctime>
-#include <queue>
+#include <iostream>
 #include <map>
+#include <queue>
 #include <set>
-/*
+#include <stack>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-*/
+#include <vector>
 using namespace std;
 const int N = 600005;
 int n, m, tot;
 int s[N], root[N], trie[N * 24][2], latest[N * 24];
 char op[10];
-void add(int i, int k, int p, int q) {
+void add(int i, int k, int p, int q)
+{
     if (k < 0) {
         latest[q] = i;
-        return ;
+        return;
     }
     int c = s[i] >> k & 1;
-    if (p)trie[q][c ^ 1] = trie[p][c ^ 1];
+    if (p)
+        trie[q][c ^ 1] = trie[p][c ^ 1];
     trie[q][c] = ++tot;
     add(i, k - 1, trie[p][c], trie[q][c]);
     latest[q] = max(latest[trie[q][0]], latest[trie[q][1]]);
 }
-int query(int now, int val, int k, int limit) {
+int query(int now, int val, int k, int limit)
+{
     while (k >= 0) {
         int c = val >> k & 1;
         if (latest[trie[now][c ^ 1]] >= limit) {
@@ -44,9 +46,10 @@ int query(int now, int val, int k, int limit) {
     }
     return s[latest[now]] ^ val;
 }
-int main() {
-    //freopen("in.txt","r",stdin);
-    //freopen("out.txt","w",stdout);
+int main()
+{
+    // freopen("in.txt","r",stdin);
+    // freopen("out.txt","w",stdout);
     scanf("%d%d", &n, &m);
     latest[0] = -1;
     root[0] = ++tot;

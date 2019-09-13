@@ -20,7 +20,8 @@ using namespace std;
 typedef long long ll;
 int t, n;
 ll m, dp[21][21][2];
-void pre() {
+void pre()
+{
     dp[1][1][0] = dp[1][1][1] = 1;
     for (int i = 2; i <= 20; i++) {
         for (int j = 1; j <= i; j++) {
@@ -33,7 +34,8 @@ void pre() {
         }
     }
 }
-int main() {
+int main()
+{
     //freopen("in.txt","r",stdin);
     //freopen("out.txt","w",stdout);
     pre();

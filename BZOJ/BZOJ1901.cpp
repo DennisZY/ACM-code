@@ -1,21 +1,20 @@
 #include <algorithm>
-#include <iostream>
+#include <bitset>
+#include <cassert>
+#include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <bitset>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <string>
-#include <cmath>
 #include <ctime>
-#include <queue>
+#include <iostream>
 #include <map>
+#include <queue>
 #include <set>
-/*
+#include <stack>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-*/
+#include <vector>
 using namespace std;
 const int N = 100005;
 const int INF = 1e9;
@@ -25,13 +24,15 @@ struct rec {
 int ans[N];
 int a[N], c[N];
 int n, m;
-void add(int x, int y) {
+void add(int x, int y)
+{
     while (x <= n) {
         c[x] += y;
         x += x & (-x);
     }
 }
-int query(int x) {
+int query(int x)
+{
     int ans = 0;
     while (x) {
         ans += c[x];
@@ -39,15 +40,17 @@ int query(int x) {
     }
     return ans;
 }
-void solve(int lval, int rval, int st, int ed) {
-    if (st > ed)return ;
+void solve(int lval, int rval, int st, int ed)
+{
+    if (st > ed)
+        return;
     if (lval == rval) {
         for (int i = st; i <= ed; i++) {
             if (q[i].op > 0) {
                 ans[q[i].op] = lval;
             }
         }
-        return ;
+        return;
     }
     int mid = (lval + rval) >> 1;
     int lt = 0, rt = 0;
@@ -61,7 +64,8 @@ void solve(int lval, int rval, int st, int ed) {
             }
         } else {
             int t = query(q[i].y) - query(q[i].x - 1);
-            if (t >= q[i].z)lq[++lt] = q[i];
+            if (t >= q[i].z)
+                lq[++lt] = q[i];
             else {
                 q[i].z -= t;
                 rq[++rt] = q[i];
@@ -73,15 +77,18 @@ void solve(int lval, int rval, int st, int ed) {
             add(q[i].x, -q[i].z);
         }
     }
-    for (int i = 1; i <= lt; i++)q[i + st - 1] = lq[i];
-    for (int i = 1; i <= rt; i++)q[st - 1 + lt + i] = rq[i];
+    for (int i = 1; i <= lt; i++)
+        q[i + st - 1] = lq[i];
+    for (int i = 1; i <= rt; i++)
+        q[st - 1 + lt + i] = rq[i];
     solve(lval, mid, st, st + lt - 1);
     solve(mid + 1, rval, st + lt, ed);
 }
 char s[10];
-int main() {
-    //freopen("in.txt","r",stdin);
-    //freopen("out.txt","w",stdout);
+int main()
+{
+    // freopen("in.txt","r",stdin);
+    // freopen("out.txt","w",stdout);
     int t = 0, p = 0;
     scanf("%d%d", &n, &m);
     for (int i = 1; i <= n; i++) {

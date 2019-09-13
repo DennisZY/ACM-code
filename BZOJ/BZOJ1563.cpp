@@ -1,21 +1,20 @@
 #include <algorithm>
-#include <iostream>
+#include <bitset>
 #include <cassert>
+#include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <bitset>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <cmath>
 #include <ctime>
-#include <queue>
+#include <iostream>
 #include <map>
+#include <queue>
 #include <set>
-/*
+#include <stack>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-*/
+#include <vector>
 using namespace std;
 typedef long long ll;
 typedef long double ld;
@@ -26,7 +25,8 @@ struct query {
     int x, l, r;
 } q[100010];
 ld dp[100010];
-int get(int i, int L, int R) {
+int get(int i, int L, int R)
+{
     int ans = 0;
     while (L <= R) {
         int mid = (L + R) >> 1;
@@ -34,27 +34,35 @@ int get(int i, int L, int R) {
             ans = mid;
             break;
         }
-        if (i >= q[mid].l)L = mid + 1;
-        else R = mid - 1;
+        if (i >= q[mid].l)
+            L = mid + 1;
+        else
+            R = mid - 1;
     }
     return q[ans].x;
 }
-ld calc(int i, int j) {
+ld calc(int i, int j)
+{
     ld ans = 1, num = abs((ld)(len[i] - len[j] + i - j - 1 - l));
-    for (int i = 1; i <= p; i++)ans *= num;
+    for (int i = 1; i <= p; i++)
+        ans *= num;
     return ans + dp[j];
 }
-void insert(int i, int &L, int &R) {
+void insert(int i, int &L, int &R)
+{
     int w = -1;
     while (L <= R) {
-        if (calc(q[R].l, i) <= calc(q[R].l, q[R].x))w = q[R--].l;
+        if (calc(q[R].l, i) <= calc(q[R].l, q[R].x))
+            w = q[R--].l;
         else {
             if (calc(q[R].r, q[R].x) > calc(q[R].r, i)) {
                 int l = q[R].l, r = q[R].r;
                 while (l < r) {
                     int mid = (l + r) >> 1;
-                    if (calc(mid, i) > calc(mid, q[R].x))l = mid + 1;
-                    else r = mid;
+                    if (calc(mid, i) > calc(mid, q[R].x))
+                        l = mid + 1;
+                    else
+                        r = mid;
                 }
                 q[R].r = l - 1;
                 w = l;
@@ -68,9 +76,10 @@ void insert(int i, int &L, int &R) {
         q[R].x = i;
     }
 }
-int main() {
-    //freopen("in.txt","r",stdin);
-    //freopen("out.txt","w",stdout);
+int main()
+{
+    // freopen("in.txt","r",stdin);
+    // freopen("out.txt","w",stdout);
     int t;
     scanf("%d", &t);
     while (t--) {
@@ -88,12 +97,15 @@ int main() {
         for (int i = 1; i <= n; i++) {
             int j = get(i, L, R);
             dp[i] = calc(i, j);
-            while (L <= R && q[L].r <= i)++L;
+            while (L <= R && q[L].r <= i)
+                ++L;
             q[L].l = i + 1;
             insert(i, L, R);
         }
-        if (dp[n] > 1e18)puts("Too hard to arrange");
-        else printf("%lld\n", (ll)dp[n]);
+        if (dp[n] > 1e18)
+            puts("Too hard to arrange");
+        else
+            printf("%lld\n", (ll)dp[n]);
         puts("--------------------");
     }
     return 0;

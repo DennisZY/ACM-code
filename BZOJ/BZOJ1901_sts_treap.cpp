@@ -1,22 +1,21 @@
 #include <algorithm>
-#include <iostream>
+#include <bitset>
+#include <cassert>
+#include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <bitset>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <string>
-#include <cmath>
 #include <ctime>
-#include <queue>
+#include <iostream>
 #include <map>
+#include <queue>
+#include <ramdom>
 #include <set>
-#include <random>
-/*
+#include <stack>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-*/
+#include <vector>
 using namespace std;
 const int N = 200006;
 const int INF = 1e9;
@@ -33,18 +32,18 @@ struct sgmt {
 } tr[N << 3];
 int a[N], b[N << 1];
 int w, tot, n, m;
-//treap
-int newnode(int val) {
+// treap
+int newnode(int val)
+{
     ++tot;
     T[tot].sz = 1;
     T[tot].num = val;
     T[tot].rnd = myrand();
     return tot;
 }
-void pushup(int p) {
-    T[p].sz = 1 + T[T[p].l].sz + T[T[p].r].sz;
-}
-void lrotate(int &p) {
+void pushup(int p) { T[p].sz = 1 + T[T[p].l].sz + T[T[p].r].sz; }
+void lrotate(int &p)
+{
     int t = T[p].r;
     T[p].r = T[t].l;
     T[t].l = p;
@@ -52,7 +51,8 @@ void lrotate(int &p) {
     pushup(t);
     p = t;
 }
-void rrotate(int &p) {
+void rrotate(int &p)
+{
     int t = T[p].l;
     T[p].l = T[t].r;
     T[t].r = p;
@@ -60,28 +60,33 @@ void rrotate(int &p) {
     pushup(t);
     p = t;
 }
-void insert(int &p, int val) {
+void insert(int &p, int val)
+{
     if (!p) {
         p = newnode(val);
-        return ;
+        return;
     }
     if (val < T[p].num) {
         insert(T[p].l, val);
-        if (T[p].rnd < T[T[p].l].rnd)rrotate(p);
+        if (T[p].rnd < T[T[p].l].rnd)
+            rrotate(p);
     } else {
         insert(T[p].r, val);
-        if (T[p].rnd < T[T[p].r].rnd)lrotate(p);
+        if (T[p].rnd < T[T[p].r].rnd)
+            lrotate(p);
     }
     pushup(p);
 }
-void erase(int &p, int val) {
+void erase(int &p, int val)
+{
     if (!p) {
-        return ;
+        return;
     }
     if (val == T[p].num) {
         if (T[p].l == 0 || T[p].r == 0) {
             p = T[p].l + T[p].r;
-            if (p == 0)return ;
+            if (p == 0)
+                return;
         } else {
             if (T[T[p].l].rnd > T[T[p].r].rnd) {
                 rrotate(p);
@@ -98,12 +103,14 @@ void erase(int &p, int val) {
     }
     pushup(p);
 }
-int getrank(int p, int val) {
+int getrank(int p, int val)
+{
     int ans = 0;
     while (p) {
         if (T[p].num <= val) {
             ans += T[T[p].l].sz + 1;
-            if (T[p].num == val)break;
+            if (T[p].num == val)
+                break;
             p = T[p].r;
         } else {
             p = T[p].l;
@@ -111,21 +118,25 @@ int getrank(int p, int val) {
     }
     return ans;
 }
-//sgmt
-void build(int rt, int l, int r) {
+// sgmt
+void build(int rt, int l, int r)
+{
     tr[rt].l = l;
     tr[rt].r = r;
     tr[rt].root = 0;
     tr[rt].sz = 0;
-    if (l == r)return;
+    if (l == r)
+        return;
     int mid = (l + r) >> 1;
     build(rt << 1, l, mid);
     build(rt << 1 | 1, mid + 1, r);
 }
-void Add(int rt, int pos, int val) {
+void Add(int rt, int pos, int val)
+{
     insert(tr[rt].root, pos);
     tr[rt].sz++;
-    if (tr[rt].l == tr[rt].r)return ;
+    if (tr[rt].l == tr[rt].r)
+        return;
     int mid = (tr[rt].l + tr[rt].r) >> 1;
     if (val <= mid) {
         Add(rt << 1, pos, val);
@@ -133,11 +144,13 @@ void Add(int rt, int pos, int val) {
         Add(rt << 1 | 1, pos, val);
     }
 }
-void del(int rt, int pos, int val) {
+void del(int rt, int pos, int val)
+{
 
     erase(tr[rt].root, pos);
     tr[rt].sz--;
-    if (tr[rt].l == tr[rt].r)return ;
+    if (tr[rt].l == tr[rt].r)
+        return;
     int mid = (tr[rt].l + tr[rt].r) >> 1;
     if (val <= mid) {
         del(rt << 1, pos, val);
@@ -145,7 +158,8 @@ void del(int rt, int pos, int val) {
         del(rt << 1 | 1, pos, val);
     }
 }
-int query(int rt, int l, int r, int k) {
+int query(int rt, int l, int r, int k)
+{
     while (tr[rt].l != tr[rt].r) {
         int c = getrank(tr[rt << 1].root, r) - getrank(tr[rt << 1].root, l - 1);
         if (c >= k) {
@@ -157,12 +171,11 @@ int query(int rt, int l, int r, int k) {
     }
     return tr[rt].l;
 }
-int get(int val) {
-    return lower_bound(b + 1, b + w + 1, val) - b;
-}
-int main() {
-    //freopen("in.txt","r",stdin);
-    //freopen("out.txt","w",stdout);
+int get(int val) { return lower_bound(b + 1, b + w + 1, val) - b; }
+int main()
+{
+    // freopen("in.txt","r",stdin);
+    // freopen("out.txt","w",stdout);
     srand(time(NULL));
     tot = 0;
     int p = 0;

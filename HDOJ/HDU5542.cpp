@@ -1,47 +1,51 @@
 #include <algorithm>
-#include <iostream>
+#include <bitset>
 #include <cassert>
+#include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <bitset>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <cmath>
 #include <ctime>
-#include <queue>
+#include <iostream>
 #include <map>
+#include <queue>
 #include <set>
-/*
+#include <stack>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-*/
+#include <vector>
 using namespace std;
 const int mod = 1000000007;
 const int N = 1010;
 int a[N], b[N], c[N];
 int dp[N][N];
 int n, m;
-void add(int x, int y) {
+void add(int x, int y)
+{
     y %= mod;
     while (x <= n + 1) {
         c[x] += y;
-        if (c[x] >= mod )c[x] -= mod;
+        if (c[x] >= mod)
+            c[x] -= mod;
         x += x & (-x);
     }
 }
-int sum(int x) {
+int sum(int x)
+{
     int ans = 0;
     while (x) {
         ans += c[x];
-        if (ans >= mod)ans -= mod;
+        if (ans >= mod)
+            ans -= mod;
         x -= x & (-x);
     }
     return ans;
 }
-int main() {
-    //freopen("in.txt","r",stdin);
-    //freopen("out.txt","w",stdout);
+int main()
+{
+    // freopen("in.txt","r",stdin);
+    // freopen("out.txt","w",stdout);
     int t;
     scanf("%d", &t);
     for (int kase = 1; kase <= t; kase++) {

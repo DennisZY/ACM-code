@@ -1,22 +1,20 @@
-// luogu-judger-enable-o2
 #include <algorithm>
-#include <iostream>
+#include <bitset>
+#include <cassert>
+#include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <bitset>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <string>
-#include <cmath>
 #include <ctime>
-#include <queue>
+#include <iostream>
 #include <map>
+#include <queue>
 #include <set>
-/*
+#include <stack>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-*/
+#include <vector>
 using namespace std;
 const int N = 100010;
 struct sgmt {
@@ -28,18 +26,20 @@ struct rec {
 int root[N];
 int tot, n, m, p;
 int a[N], b[N << 1];
-int get(int val) {
-    return lower_bound(b + 1, b + p + 1, val) - b;
-}
-int newnode() {
+int get(int val) { return lower_bound(b + 1, b + p + 1, val) - b; }
+int newnode()
+{
     ++tot;
     tr[tot].l = tr[tot].r = tr[tot].sz = 0;
     return tot;
 }
-void update(int &p, int l, int r, int val, int cnt) {
-    if (!p)p = newnode();
+void update(int &p, int l, int r, int val, int cnt)
+{
+    if (!p)
+        p = newnode();
     tr[p].sz += cnt;
-    if (l == r)return ;
+    if (l == r)
+        return;
     int mid = (l + r) >> 1;
     if (val <= mid) {
         update(tr[p].l, l, mid, val, cnt);
@@ -47,33 +47,40 @@ void update(int &p, int l, int r, int val, int cnt) {
         update(tr[p].r, mid + 1, r, val, cnt);
     }
 }
-inline int lowbit(int x) {
-    return x & (-x);
-}
-void add(int x, int y, int z) {
+inline int lowbit(int x) { return x & (-x); }
+void add(int x, int y, int z)
+{
     for (; x <= n; x += lowbit(x)) {
         update(root[x], 1, p, y, z);
     }
 }
 int cnt1, cnt2, use1[N], use2[N];
-void genlist(int x, int *a, int &p) {
+void genlist(int x, int *a, int &p)
+{
     p = 0;
     for (; x; x -= lowbit(x)) {
         a[++p] = root[x];
     }
 }
-int query(int l, int r, int k) {
+int query(int l, int r, int k)
+{
     while (l < r) {
         int mid = (l + r) >> 1, c = 0;
-        for (int i = 1; i <= cnt1; i++)c += tr[tr[use1[i]].l].sz;
-        for (int i = 1; i <= cnt2; i++)c -= tr[tr[use2[i]].l].sz;
+        for (int i = 1; i <= cnt1; i++)
+            c += tr[tr[use1[i]].l].sz;
+        for (int i = 1; i <= cnt2; i++)
+            c -= tr[tr[use2[i]].l].sz;
         if (c >= k) {
-            for (int i = 1; i <= cnt1; i++)use1[i] = tr[use1[i]].l;
-            for (int i = 1; i <= cnt2; i++)use2[i] = tr[use2[i]].l;
+            for (int i = 1; i <= cnt1; i++)
+                use1[i] = tr[use1[i]].l;
+            for (int i = 1; i <= cnt2; i++)
+                use2[i] = tr[use2[i]].l;
             r = mid;
         } else {
-            for (int i = 1; i <= cnt1; i++)use1[i] = tr[use1[i]].r;
-            for (int i = 1; i <= cnt2; i++)use2[i] = tr[use2[i]].r;
+            for (int i = 1; i <= cnt1; i++)
+                use1[i] = tr[use1[i]].r;
+            for (int i = 1; i <= cnt2; i++)
+                use2[i] = tr[use2[i]].r;
             l = mid + 1;
             k -= c;
         }
@@ -81,9 +88,10 @@ int query(int l, int r, int k) {
     return l;
 }
 
-int main() {
-    //freopen("in.txt","r",stdin);
-    //freopen("out.txt","w",stdout);
+int main()
+{
+    // freopen("in.txt","r",stdin);
+    // freopen("out.txt","w",stdout);
     tot = 0;
     scanf("%d%d", &n, &m);
     for (int i = 1; i <= n; i++) {

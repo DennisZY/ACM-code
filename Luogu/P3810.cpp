@@ -1,46 +1,55 @@
 #include <algorithm>
-#include <iostream>
+#include <bitset>
+#include <cassert>
+#include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <bitset>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <string>
-#include <cmath>
 #include <ctime>
-#include <queue>
+#include <iostream>
 #include <map>
+#include <queue>
 #include <set>
-/*
+#include <stack>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-*/
+#include <vector>
 using namespace std;
 int n, k;
 const int N = 100010;
 struct rec {
     int x, y, z, ans, w;
-    bool operator<(const rec& tmp)const {
-        if (y != tmp.y)return y < tmp.y;
-        else return z < tmp.z;
+    bool operator<(const rec &tmp) const
+    {
+        if (y != tmp.y)
+            return y < tmp.y;
+        else
+            return z < tmp.z;
     }
-    bool operator==(const rec& tmp)const {
+    bool operator==(const rec &tmp) const
+    {
         return x == tmp.x && y == tmp.y && z == tmp.z;
     }
 } b[N], tmp[N];
-bool cmpx(const rec& a, const rec& b) {
-    if (a.x != b.x)return a.x < b.x;
-    else if (a.y != b.y)return a.y < b.y;
-    else return a.z < b.z;
+bool cmpx(const rec &a, const rec &b)
+{
+    if (a.x != b.x)
+        return a.x < b.x;
+    else if (a.y != b.y)
+        return a.y < b.y;
+    else
+        return a.z < b.z;
 }
 int c[N << 1], ans[N];
-void add(int x, int y) {
+void add(int x, int y)
+{
     for (; x <= k; x += x & (-x)) {
         c[x] += y;
     }
 }
-int sum(int x) {
+int sum(int x)
+{
     int ans = 0;
     while (x) {
         ans += c[x];
@@ -48,8 +57,10 @@ int sum(int x) {
     }
     return ans;
 }
-void solve(int l, int r) {
-    if (l == r)return ;
+void solve(int l, int r)
+{
+    if (l == r)
+        return;
     int mid = (l + r) >> 1;
     solve(l, mid);
     solve(mid + 1, r);
@@ -73,13 +84,17 @@ void solve(int l, int r) {
             tmp[p++] = b[pr++];
         }
     }
-    while (pl <= mid)tmp[p++] = b[pl++];
-    while (pr <= r)tmp[p++] = b[pr++];
-    for (int i = l; i <= r; i++)b[i] = tmp[i];
+    while (pl <= mid)
+        tmp[p++] = b[pl++];
+    while (pr <= r)
+        tmp[p++] = b[pr++];
+    for (int i = l; i <= r; i++)
+        b[i] = tmp[i];
 }
-int main() {
-    //freopen("in.txt","r",stdin);
-    //freopen("out.txt","w",stdout);
+int main()
+{
+    // freopen("in.txt","r",stdin);
+    // freopen("out.txt","w",stdout);
     scanf("%d%d", &n, &k);
     for (int i = 1; i <= n; i++) {
         scanf("%d%d%d", &b[i].x, &b[i].y, &b[i].z);

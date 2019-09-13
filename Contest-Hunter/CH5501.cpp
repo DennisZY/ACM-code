@@ -1,26 +1,26 @@
 #include <algorithm>
-#include <iostream>
+#include <bitset>
+#include <cassert>
+#include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <bitset>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <string>
-#include <cmath>
 #include <ctime>
-#include <queue>
+#include <iostream>
 #include <map>
+#include <queue>
 #include <set>
-/*
+#include <stack>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-*/
+#include <vector>
 using namespace std;
 typedef long long ll;
 const int N = 1000010;
 int a[N << 1], q[N << 1], pos[N << 1];
-int main() {
+int main()
+{
     int n;
     scanf("%d", &n);
     for (int i = 1; i <= n; i++) {
@@ -37,7 +37,8 @@ int main() {
         while (l <= r && i - pos[l] > len) {
             ++l;
         }
-        if (l <= r)ans = max(ans, a[i] + i + q[l]);
+        if (l <= r)
+            ans = max(ans, a[i] + i + q[l]);
         while (l <= r && q[r] <= a[i] - i) {
             --r;
         }

@@ -23,14 +23,16 @@ int d[205][25][805];
 int a[205], b[205], suma, sumb, t;
 int top, num[25];
 int kase = 0;
-void genlist(int i, int j, int k) {
+void genlist(int i, int j, int k)
+{
     if (j == 0)return ;
     int now = d[i][j][k];
     genlist(now - 1, j - 1, k - (a[now] - b[now]));
     num[++top] = now;
     suma += a[now], sumb += b[now];
 }
-int main() {
+int main()
+{
     //freopen("in.txt","r",stdin);
     //freopen("out.txt","w",stdout);
     while (scanf("%d%d", &n, &m) && n) {

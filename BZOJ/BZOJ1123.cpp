@@ -1,28 +1,27 @@
 #include <algorithm>
-#include <iostream>
+#include <bitset>
 #include <cassert>
+#include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <bitset>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <cmath>
 #include <ctime>
-#include <queue>
-#include <stack>
+#include <iostream>
 #include <map>
+#include <queue>
 #include <set>
-/*
+#include <stack>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-*/
+#include <vector>
 using namespace std;
 int n, m;
 const int N = 100010;
 const int M = 500010;
 int Head[N], nxt[M << 1], ver[M << 1], tot;
-void add(int x, int y) {
+void add(int x, int y)
+{
     ver[++tot] = y;
     nxt[tot] = Head[x];
     Head[x] = tot;
@@ -32,7 +31,8 @@ bool cut[N];
 typedef long long ll;
 ll ans[N];
 int num;
-void tarjan(int u) {
+void tarjan(int u)
+{
     dfn[u] = low[u] = ++num;
     sz[u] = 1;
     int flag = 0, sum = 0;
@@ -46,7 +46,8 @@ void tarjan(int u) {
                 flag++;
                 ans[u] += 1ll * sz[v] * (n - sz[v]);
                 sum += sz[v];
-                if (u != 1 || flag > 1)cut[u] = true;
+                if (u != 1 || flag > 1)
+                    cut[u] = true;
             }
         } else {
             low[u] = min(low[u], dfn[v]);
@@ -58,9 +59,10 @@ void tarjan(int u) {
         ans[u] = 2 * (n - 1);
     }
 }
-int main() {
-    //freopen("in.txt","r",stdin);
-    //freopen("out.txt","w",stdout);
+int main()
+{
+    // freopen("in.txt","r",stdin);
+    // freopen("out.txt","w",stdout);
     scanf("%d%d", &n, &m);
     for (int i = 1, x, y; i <= m; i++) {
         scanf("%d%d", &x, &y);
